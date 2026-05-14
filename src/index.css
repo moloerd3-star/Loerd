@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
 @import "tailwindcss";
 
 @layer base {
@@ -77,11 +78,17 @@ html, body {
   to { transform: rotate(360deg); }
 }
 
+@keyframes pop {
+  0% { transform: scale(.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 .spinner {
   animation: rotate 1s linear infinite;
 }
 
 .fade { animation: fadeUp 0.4s ease forwards; }
+.fadeUp { animation: fadeUp 0.35s ease both; }
 .fadeIn { animation: fadeIn 0.3s ease forwards; }
 .glow { animation: glow 2.5s ease infinite; }
 .float { animation: float 3s ease infinite; }
@@ -109,6 +116,13 @@ html, body {
 
 .card:active { transform: scale(0.97); }
 
+.card-hover-fin:hover {
+  background: #16181f !important;
+  border-color: #1e2028 !important;
+}
+
+.card-hover-fin:active { transform: scale(0.97); }
+
 .btn {
   transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
   cursor: pointer;
@@ -121,9 +135,67 @@ html, body {
 .btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
 .btn:active { transform: scale(0.97); }
 
+.btn-fin:active { transform: scale(0.97); }
+
 .inp {
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inp-fin:focus {
+  outline: none;
+  border-color: #3b8fd4 !important;
+  box-shadow: 0 0 0 2px rgba(59,143,212,.15);
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .03), transparent);
+  animation: shimmer 2.5s infinite;
+  pointer-events: none;
+}
+
+/* Wallet V2 Specific Styles */
+@keyframes fadeUp-wallet { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn-wallet { from { opacity: 0; } to { opacity: 1; } }
+@keyframes float-wallet { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes spin-wallet { to { transform: rotate(360deg); } }
+@keyframes shimmer-wallet { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
+
+.fadeUp-wallet { animation: fadeUp-wallet .4s ease both; }
+.fadeIn-wallet { animation: fadeIn-wallet .3s ease both; }
+.float-wallet { animation: float-wallet 3s ease-in-out infinite; }
+.spinner-wallet { animation: spin-wallet 1s linear infinite; }
+
+.btn-wallet { cursor: pointer; border: none; transition: all .18s ease; }
+.btn-wallet:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.btn-wallet:active { transform: scale(.97); }
+
+.card-wallet { transition: all .18s ease; position: relative; overflow: hidden; }
+.card-wallet:hover { transform: translateY(-2px); }
+
+.inp-wallet:focus { outline: none; border-color: #4F8EF7 !important; box-shadow: 0 0 0 3px rgba(79, 142, 247, .15); }
+
+.shimmer-wallet::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .04), transparent);
+  animation: shimmer-wallet 2.5s infinite;
+  pointer-events: none;
 }
 
 .chip {

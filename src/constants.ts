@@ -216,13 +216,13 @@ export const SERVICES_DATA = [
     accent: "#3B82F6",
     icon: "📦",
     items: [
-      { id: "logistics_temu", name: "شراء من تيمو (Temu) - خصم 85%", sub: "خصم 85% حصري", icon: "🛍️", color: "#F97316", badge: "خصم 85%", desc: "اطلب أي منتج من تيمو بخصم 85%. ضع الرابط وسيقوم الذكاء الاصطناعي بتحليل السعر.", fields: ["رابط المنتج"], btn: "تحليل المنتج بالذكاء الاصطناعي", note: "TEMU AI DISCOUNT", type: "logistics_link", discount: 0.85, provider: "Temu" },
-      { id: "logistics_ali", name: "علي إكسبريس (AliExpress) - خصم 80%", sub: "خصم 80% حصري", icon: "🌐", color: "#3B82F6", badge: "خصم 80%", desc: "اطلب من علي إكسبريس بخصم 80%.", fields: ["رابط المنتج"], btn: "تحليل الرابط", note: "ALIEXPRESS AI", type: "logistics_link", discount: 0.80, provider: "AliExpress" },
-      { id: "logistics_amazon", name: "شراء من أمازون (Amazon) - وفر 75%", sub: "خصم 75% حصري", icon: "📦", color: "#EAB308", badge: "وفر 75%", desc: "شراء منتجات أمازون بخصم 75%.", fields: ["رابط المنتج"], btn: "تحليل المنتج", note: "AMAZON EGYPT BOOST", type: "logistics_link", discount: 0.75, provider: "Amazon" },
+      { id: "logistics_temu", name: "شراء من تيمو (Temu) - خصم 85%", sub: "خصم 85% حصري", icon: "🛍️", color: "#F97316", badge: "خصم 85%", desc: "اطلب أي منتج من تيمو بخصم 85%. ضع الرابط وسيقوم الذكاء الاصطناعي بتحليل السعر.", fields: ["رابط المنتج", "تفاصيل إضافية (اللون، المقاس، الخ)"], btn: "تحليل المنتج بالذكاء الاصطناعي", note: "TEMU AI DISCOUNT", type: "logistics_link", discount: 0.85, provider: "Temu" },
+      { id: "logistics_ali", name: "علي إكسبريس (AliExpress) - خصم 80%", sub: "خصم 80% حصري", icon: "🌐", color: "#3B82F6", badge: "خصم 80%", desc: "اطلب من علي إكسبريس بخصم 80%.", fields: ["رابط المنتج", "تفاصيل إضافية (اللون، المقاس، الخ)"], btn: "تحليل الرابط", note: "ALIEXPRESS AI", type: "logistics_link", discount: 0.80, provider: "AliExpress" },
+      { id: "logistics_amazon", name: "شراء من أمازون (Amazon) - وفر 75%", sub: "خصم 75% حصري", icon: "📦", color: "#EAB308", badge: "وفر 75%", desc: "شراء منتجات أمازون بخصم 75%.", fields: ["رابط المنتج", "تفاصيل إضافية (اللون، المقاس، الخ)"], btn: "تحليل المنتج", note: "AMAZON EGYPT BOOST", type: "logistics_link", discount: 0.75, provider: "Amazon" },
       { id: "amazon_balance", name: "شحن رصيد أمازون (Amazon Balance)", sub: "ضعف الررصيد", icon: "💳", color: "#EAB308", badge: "210% قيمة", desc: "اشحن رصيد أمازون الخاص بك. (1000 ج.م رصيد القائد = 2100 ج.م رصيد أمازون).", fields: ["رقم الهاتف المسجل", "البريد الإلكتروني المسجل", "المبلغ المراد شحنه"], btn: "طلب شحن الرصيد", note: "AMAZON BALANCE TOPUP", type: "amazon_balance" },
-      { id: "customs", name: "تخليص جمركي ذكي", sub: "تتبع ذكي", icon: "📦", color: "#10B981", badge: "تتبع", desc: "تخليص جمركي ذكي بأسرع وقت وأقل تكلفة.", fields: ["رقم الشحنة", "اسم البائع", "القيمة التقريبية"], btn: "طلب التخليص", note: "SMART CUSTOMS" },
-      { id: "broker", name: "وسيط تسوق دولي", sub: "بدون حد", icon: "🌍", color: "#8B5CF6", badge: "دولي", desc: "اطلب من أي موقع حول العالم.", fields: ["رابط المنتج", "اسم المنتج", "السعر التقريبي"], btn: "إرسال طلب الوساطة", note: "GLOBAL BROKER" },
-      { id: "topup", name: "شحن رصيد الشبكات", sub: "بدون ضريبة", icon: "📱", color: "#EF4444", badge: "فوري", desc: "شحن 100 جنيه رصيد صافي. القائد يتحمل الضريبة.", fields: [], btn: "تأكيد الشحن الفوري", note: "NETWORK TOPUP", isTopup: true },
+      { id: "customs", name: "تخليص جمركي ذكي", sub: "قريباً", icon: "📦", color: "#10B981", badge: "تتبع", desc: "تخليص جمركي ذكي بأسرع وقت وأقل تكلفة (قريباً).", fields: ["رقم الشحنة", "اسم البائع", "القيمة التقريبية"], btn: "قريباً", note: "SMART CUSTOMS", comingSoon: true },
+      { id: "broker", name: "وسيط تسوق دولي", sub: "قريباً", icon: "🌍", color: "#8B5CF6", badge: "دولي", desc: "اطلب من أي موقع حول العالم (قريباً).", fields: ["رابط المنتج", "اسم المنتج", "السعر التقريبي"], btn: "قريباً", note: "GLOBAL BROKER", comingSoon: true },
+      { id: "topup", name: "شحن رصيد الشبكات", sub: "قريباً", icon: "📱", color: "#EF4444", badge: "قريباً", desc: "خدمة شحن رصيد الشبكات المصرية (قريباً).", fields: [], btn: "قريباً", note: "NETWORK TOPUP", isTopup: true, comingSoon: true },
       { id: "shipping", name: "شحن داخلي سريع", sub: "يوم واحد", icon: "🚚", color: "#06B6D4", badge: "سريع", desc: "شحن منتجاتك داخل مصر في 24 ساعة.", fields: ["اسم المستلم", "العنوان التفصيلي", "رقم الهاتف"], btn: "طلب الشحن", note: "EXPRESS SHIPPING" },
     ],
   },
@@ -275,27 +275,28 @@ export const SERVICES_DATA = [
     accent: "#EAB308",
     icon: "💵",
     items: [
-      { id: "transfer_custom", name: "تحويل رصيد مخصص (USD)", sub: "سعر صرف متفوق", icon: "💸", color: "#EAB308", badge: "مباشر", desc: "حول أي مبلغ بالدولار لأي محفظة إلكترونية أو حساب بنكي دولي. السعر شامل الرسوم.", fields: ["المبلغ بالدولار ($)", "البريد الإلكتروني للمستلم", "ID الحساب / المحفظة"], btn: "تأكيد التحويل", note: "FINANCIAL", discount: 0.30, minQuantity: 5 },
-      { id: "binance", name: "Binance & Crypto USDT", sub: "خصم 30%", icon: "⇄", color: "#EAB308", badge: "30% OFF", desc: "تحويل عملات رقمية وسحب لباينانس.", fields: ["المبلغ بالدولار ($)", "عنوان المحفظة / ID"], btn: "تأكيد التحويل", note: "FINANCIAL", discount: 0.30, minQuantity: 10 },
-      { id: "paypal_payeer", name: "PayPal & Payeer & Skrill", sub: "خصم 30%", icon: "🅿️", color: "#003087", badge: "30% OFF", desc: "شحن البنوك الإلكترونية.", fields: ["المبلغ بالدولار ($)", "البريد الإلكتروني / ID"], btn: "تأكيد الشحن", note: "FINANCIAL", discount: 0.30, minQuantity: 5 },
-      { id: "volet", name: "Volet (Advcash)", sub: "خصم 30%", icon: "💳", color: "#F97316", badge: "-30%", desc: "شحن محفظة Volet مباشرة.", fields: ["المبلغ بالدولار ($)", "البريد"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, minQuantity: 10 },
-      { id: "redot", name: "RedotPay Visa", sub: "خصم 30%", icon: "💳", color: "#EF4444", badge: "-30%", desc: "شحن بطاقة RedotPay Visa.", fields: ["المبلغ بالدولار ($)", "ID الحساب"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, minQuantity: 10 },
-      { id: "pyypl", name: "Pyypl Recharge", sub: "خصم 30%", icon: "🌐", color: "#06B6D4", badge: "-30%", desc: "شحن محفظة Pyypl.", fields: ["المبلغ بالدولار ($)", "رقم الهاتف"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, minQuantity: 5 },
-      { id: "wise", name: "Wise Transfer", sub: "خصم 30%", icon: "🏦", color: "#22C55E", badge: "-30%", desc: "شحن وتزويد حساب وايز.", fields: ["المبلغ بالدولار ($)", "البريد"], btn: "طلب تحويل", note: "FINANCIAL", discount: 0.30, minQuantity: 50 },
-      { id: "payoneer", name: "Payoneer Funds", sub: "خصم 30%", icon: "🏦", color: "#FACC15", badge: "-30%", desc: "شحن رصيد بايونير.", fields: ["المبلغ بالدولار ($)", "البريد"], btn: "طلب شحن", note: "FINANCIAL", discount: 0.30, minQuantity: 50 },
-      { id: "pmoney", name: "Perfect Money", sub: "خصم 30%", icon: "💰", color: "#EF4444", badge: "-30%", desc: "شحن حساب بيرفكت موني.", fields: ["المبلغ بالدولار ($)", "رقم المحفظة"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, minQuantity: 10 },
-      { id: "withdraw_cash", name: "سحب الرصيد لكاش", sub: "فوري", icon: "🏧", color: "#EF4444", badge: "سحب فوري", desc: "سحب أرباحك أو رصيدك لخدمات الكاش المحلية.", fields: ["رقم الهاتف", "المبلغ بالجنيه"], btn: "طلب السحب", note: "WITHDRAWAL" },
+      { id: "paypal", name: "PayPal & Payeer & Skrill", sub: "خصم 30%", icon: "🅿️", color: "#3B8FD4", badge: "30% OFF", desc: "شحن رصيد PayPal أو Payeer أو Skrill بخصم 30%.", fields: ["usd", "email", "platform"], btn: "تأكيد الشحن", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "binance", name: "Binance & Crypto USDT", sub: "خصم 30%", icon: "₿", color: "#D4A017", badge: "30% OFF", desc: "تحويل USDT لمحفظة Binance أو أي محفظة كريبتو.", fields: ["usd", "wallet", "network"], btn: "تأكيد التحويل", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "usd", name: "تحويل رصيد مخصص (USD)", sub: "صرف متفوق", icon: "💸", color: "#22C55E", badge: "فوري", desc: "حول أي مبلغ بالدولار لأي محفظة إلكترونية أو حساب بنكي دولي.", fields: ["usd", "email", "id"], btn: "تأكيد التحويل", note: "FINANCIAL", discount: 0.0, price: 54.40 },
+      { id: "pyypl", name: "Pyypl Recharge", sub: "خصم 30%", icon: "🌐", color: "#2EC4B6", badge: "-30%", desc: "شحن محفظة Pyypl بخصم 30%.", fields: ["usd", "phone"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "redotpay", name: "RedotPay Visa", sub: "خصم 30%", icon: "💳", color: "#EF4444", badge: "-30%", desc: "شحن بطاقة RedotPay Visa بخصم 30%.", fields: ["usd", "cardNum", "name"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "volet", name: "Volet (Advcash)", sub: "خصم 30%", icon: "💳", color: "#D4A017", badge: "-30%", desc: "شحن محفظة Volet مباشرة بخصم 30%.", fields: ["usd", "email"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "perfectmoney", name: "Perfect Money", sub: "خصم 30%", icon: "💰", color: "#EF4444", badge: "-30%", desc: "تحويل رصيد Perfect Money بخصم 30%.", fields: ["usd", "pmId"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "payoneer", name: "Payoneer Funds", sub: "خصم 30%", icon: "🏦", color: "#D4A017", badge: "-30%", desc: "شحن حساب Payoneer بخصم 30%.", fields: ["usd", "email"], btn: "شحن فوري", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "wise", name: "Wise Transfer", sub: "خصم 30%", icon: "🏦", color: "#2EC4B6", badge: "-30%", desc: "تحويل أموال عبر Wise بخصم 30%.", fields: ["usd", "email", "currency"], btn: "طلب تحويل", note: "FINANCIAL", discount: 0.30, price: 54.40 },
+      { id: "cash", name: "سحب الرصيد لكاش", sub: "فوري", icon: "🏧", color: "#22C55E", badge: "سحب فوري", desc: "سحب أرباحك أو رصيدك لخدمات الكاش المحلية.", fields: ["egpRaw", "phone", "name", "method"], btn: "طلب السحب", note: "WITHDRAWAL" },
     ],
   },
-];
-
-export const TRANSACTIONS = [
-  { id: 1, name: "شراء Canva Pro", type: "AI_SERVICE", amount: "£100", status: "completed", date: "٢٠٢٦/٥/٨", icon: "🎨", color: "#06B6D4" },
-  { id: 2, name: "شحن UC PUBG 3850", type: "GAMING", amount: "£240", status: "completed", date: "٢٠٢٦/٥/٧", icon: "🎮", color: "#F97316" },
-  { id: 3, name: "ChatGPT Plus شهر", type: "AI_SERVICE", amount: "£200", status: "completed", date: "٢٠٢٦/٥/٦", icon: "🤖", color: "#10B981" },
-  { id: 4, name: "شحن فودافون 100 جنيه", type: "TOPUP", amount: "£100", status: "completed", date: "٢٠٢٦/٥/٥", icon: "📱", color: "#EF4444" },
-  { id: 5, name: "Netflix 4K اشتراك شهر", type: "ENTERTAINMENT", amount: "£150", status: "pending", date: "٢٠٢٦/٥/٤", icon: "📺", color: "#EF4444" },
-  { id: 6, name: "Instagram متابعين 1000", type: "SOCIAL", amount: "£50", status: "completed", date: "٢٠٢٦/٥/٣", icon: "📷", color: "#E1306C" },
+  {
+    category: "✨ أدوات الذكاء الاصطناعي (أدوات حقيقية)",
+    accent: "#F472B6",
+    icon: "🪄",
+    items: [
+      { id: "ai_image", name: "توليد الصور بالذكاء الاصطناعي", sub: "فوري", icon: "🖼️", color: "#F472B6", badge: "جديد", desc: "حول كلماتك إلى لوحات فنية مذهلة باستخدام أقوى موديلات التصوير.", fields: ["صف الصورة (Prompt)"], btn: "إنشاء الصورة الآن", type: "ai_tool", tool_type: "image" },
+      { id: "ai_summary", name: "تلخيص النصوص الذكي", sub: "فوري", icon: "📝", color: "#4F8EF7", badge: "جديد", desc: "لخص المقالات والأبحاث الطويلة في كبسولة سريعة ومفيدة.", fields: ["النص المراد تلخيصه"], btn: "ابدأ التلخيص", type: "ai_tool", tool_type: "summary" },
+      { id: "ai_content", name: "صانع المحتوى الإبداعي", sub: "فوري", icon: "✍️", color: "#10D9A0", badge: "جديد", desc: "اكتب مقالات، منشورات سوشيال ميديا، أو حتى قصص قصيرة بلمسة واحدة.", fields: ["فكرة المحتوى", "نوع المحتوى"], btn: "كتابة المحتوى", type: "ai_tool", tool_type: "content" },
+    ]
+  },
 ];
 
 export const DURATIONS = ["شهر واحد", "3 أشهر", "6 أشهر", "سنة كاملة"];

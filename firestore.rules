@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── GLOBAL HELPERS ───
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    // Admin check: email string check OR lookup in roles_admin
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'loerd04@gmail.com' || 
+        exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))
+      );
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ─── USERS ───
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'name', 'balance', 'points', 'createdAt']) &&
+             data.email is string && data.email.size() <= 200 &&
+             data.name is string && data.name.size() <= 200 &&
+             data.balance is number &&
+             data.points is number &&
+             data.createdAt == request.time;
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidUser(incoming()) && incoming().balance == 0 && incoming().points == 0;
+      allow update: if isSignedIn() && (
+        (request.auth.uid == userId && isValidUser(incoming()) && incoming().balance == existing().balance && incoming().points == existing().points && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'email', 'phone', 'country'])) ||
+        isAdmin()
+      );
+
+      match /wallet/{walletId} {
+        allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+        allow write: if isAdmin();
+      }
+    }
+
+    // ─── ORDERS ───
+    function isValidOrder(data) {
+      // Must contain basic fields
+      return data.keys().hasAll(['userId', 'status', 'createdAt', 'total']) &&
+             data.userId == request.auth.uid &&
+             data.status == 'pending' &&
+             data.createdAt == request.time &&
+             data.total is number && data.total >= 0;
+    }
+
+    match /orders/{orderId} {
+      allow create: if isSignedIn() && isValidOrder(incoming()) && 
+                    get(/databases/$(database)/documents/users/$(request.auth.uid)).data.balance >= incoming().total;
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // ─── RECHARGE REQUESTS ───
+    match /recharge_requests/{requestId} {
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid;
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // ─── TICKETS ───
+    match /tickets/{ticketId} {
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid;
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // ─── TICKER ───
+    match /ticker/{tickerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ─── CONFIG ───
+    match /config/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ─── READ-ONLY COLLECTIONS ───
+    match /services/{serviceId} { allow read: if true; }
+    match /news/{newsId} { allow read: if isSignedIn(); }
+    match /app_settings/{settingId} { allow read: if isSignedIn(); }
+    match /roles_admin/{uid} { allow get: if isSignedIn(); }
+    
+    // Catch-all for Admin access to everything
+    match /{allDocs=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

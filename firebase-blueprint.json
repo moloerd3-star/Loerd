@@ -1,0 +1,121 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "balance": { "type": "number" },
+        "phone": { "type": "string" },
+        "country": { "type": "string" }
+      },
+      "required": ["email", "name", "balance"]
+    },
+    "WalletEntry": {
+      "title": "Wallet Entry",
+      "description": "Individual transaction or balance segment",
+      "type": "object",
+      "properties": {
+        "amount": { "type": "number" },
+        "type": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["amount", "timestamp"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A service order placed by a user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "name": { "type": "string" },
+        "amount": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed", "cancelled"] },
+        "date": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "fields": { "type": "object" }
+      },
+      "required": ["userId", "serviceId", "amount", "status", "createdAt"]
+    },
+    "RechargeRequest": {
+      "title": "Recharge Request",
+      "description": "A request to add funds to the wallet",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Ticket": {
+      "title": "Support Ticket",
+      "description": "User support ticket",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "closed"] },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "reply": { "type": "string" }
+      }
+    },
+    "TickerItem": {
+      "title": "Ticker Item",
+      "description": "A message for the news marquee",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "order": { "type": "number" }
+      }
+    },
+    "Config": {
+      "title": "App Config",
+      "description": "Global application settings",
+      "type": "object",
+      "properties": {
+        "maintenanceMode": { "type": "boolean" },
+        "autoApproveOrders": { "type": "boolean" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "The main user document"
+    },
+    "/users/{userId}/wallet/{walletId}": {
+      "schema": "WalletEntry",
+      "description": "Wallet history for a user"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Global orders collection"
+    },
+    "/recharge_requests/{requestId}": {
+      "schema": "RechargeRequest",
+      "description": "Wallet recharge requests"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Support tickets"
+    },
+    "/ticker/{tickerId}": {
+      "schema": "TickerItem",
+      "description": "News marquee items"
+    },
+    "/config/{configId}": {
+      "schema": "Config",
+      "description": "Global settings"
+    }
+  }
+}
