@@ -405,6 +405,27 @@ function OrderDetailView({ order, onBack, addNotification, setTab }: any) {
   const currentIdx = roadmap.findIndex(r => r.id === order.status);
   const isExpired = order.createdAt?.toDate ? (Date.now() - order.createdAt.toDate().getTime() > 48 * 60 * 60 * 1000) : false;
 
+  const RoadmapStep = ({ active, current, icon, label, desc }: any) => (
+    <div style={{ position: "relative", marginBottom: 30, paddingRight: 45 }}>
+      <div style={{ 
+        position: "absolute", right: -2, top: 0, width: 36, height: 36, 
+        background: active ? G.blue : "#1e293b", 
+        borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center",
+        zIndex: 2, boxShadow: active ? `0 0 15px ${G.blue}40` : "none",
+        transform: "translateX(50%)"
+      }}>
+        <span style={{ fontSize: 18, filter: active ? "none" : "grayscale(1)" }}>{icon}</span>
+      </div>
+      <div style={{ opacity: active ? 1 : 0.4 }}>
+        <div style={{ fontSize: 14, fontWeight: 900, color: active ? "#fff" : G.sub, marginBottom: 4 }}>
+          {label}
+          {current && <span style={{ marginRight: 8, fontSize: 10, background: G.blue, color: "#fff", padding: "2px 6px", borderRadius: 4 }}>حالي</span>}
+        </div>
+        <div style={{ fontSize: 11, color: G.sub2, lineHeight: 1.5 }}>{desc}</div>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ padding: 20, paddingBottom: 100 }}>
        <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 25 }}>
@@ -415,8 +436,8 @@ function OrderDetailView({ order, onBack, addNotification, setTab }: any) {
       <GlassCard style={{ padding: 20, marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
            <div>
-              <div style={{ fontSize: 18, fontWeight: 900, color: G.yellow }}>{order.name || "طلب خدمة"}</div>
-              <div style={{ fontSize: 12, color: G.sub }}>#{order.id.slice(-8)}</div>
+              <div style={{ fontSize: 18, fontWeight: 900, color: G.yellow }}>{order.name || order.serviceName || "طلب خدمة"}</div>
+              <div style={{ fontSize: 12, color: G.sub }}>#{order._docId?.slice(-8) || order.id?.slice(-8)}</div>
            </div>
            <Badge 
               label={order.status === 'completed' ? 'مكتمل' : order.status === 'cancelled' ? 'ملغي' : 'نشط'} 
@@ -426,55 +447,44 @@ function OrderDetailView({ order, onBack, addNotification, setTab }: any) {
 
         <div style={{ display: "grid", gap: 12, fontSize: 13, color: G.text }}>
            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ color: G.sub2 }}>التاريخ:</span>
-              <span>{order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString("ar-EG") : ""}</span>
+              <span style={{ color: G.sub2 }}>تاريخ الطلب:</span>
+              <span>{order.createdAt?.toDate ? order.createdAt.toDate().toLocaleString("ar-EG") : (order.date || "")}</span>
            </div>
            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ color: G.sub2 }}>القيمة:</span>
+              <span style={{ color: G.sub2 }}>قيمة الطلب:</span>
               <span style={{ fontWeight: 900, color: G.yellow }}>£{Number(order.total || 0).toLocaleString()}</span>
            </div>
            {order.link && (
              <div style={{ display: "flex", justifyContent: "space-between", gap: 20 }}>
-                <span style={{ color: G.sub2 }}>الرابط:</span>
-                <span style={{ color: G.blue, wordBreak: "break-all", textAlign: "left" }}>{order.link}</span>
+                <span style={{ color: G.sub2 }}>رابط التنفيذ:</span>
+                <span style={{ color: G.blue, wordBreak: "break-all", textAlign: "left", fontSize: 11 }}>{order.link}</span>
              </div>
            )}
            {order.quantity && (
              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ color: G.sub2 }}>الكمية:</span>
+                <span style={{ color: G.sub2 }}>الكمية المطلوبة:</span>
                 <span>{order.quantity.toLocaleString()}</span>
              </div>
            )}
         </div>
       </GlassCard>
 
-      <SectionHeader title="خريطة التنفيذ" accent={G.blue} />
-      <div style={{ position: "relative", paddingLeft: 10, marginTop: 20 }}>
+      <SectionHeader title="شرح الخدمة" accent={G.yellow} />
+      <GlassCard style={{ padding: 16, marginBottom: 20, fontSize: 13, color: G.sub2, lineHeight: 1.6 }}>
+         {order.desc || order.description || "يتم تنفيذ هذه الخدمة بأعلى جودة ممكنة من قبل فريقنا المختص، نضمن لك الحصول على النتائج المرجوة في الوقت المحدد."}
+      </GlassCard>
+
+      <SectionHeader title="خريطة تنفيذ الطلب" accent={G.blue} />
+      <div style={{ position: "relative", paddingLeft: 10, marginTop: 20, marginBottom: 30 }}>
         <div style={{ position: "absolute", right: 15, top: 0, bottom: 0, width: 2, background: "rgba(255,255,255,0.05)" }} />
-        {roadmap.map((step, idx) => {
-          const isActive = idx <= currentIdx;
-          const isCurrent = idx === currentIdx;
-          return (
-            <div key={step.id} style={{ position: "relative", marginBottom: 30, paddingRight: 45 }}>
-              <div style={{ 
-                position: "absolute", right: -2, top: 0, width: 36, height: 36, 
-                background: isActive ? G.blue : "#1e293b", 
-                borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center",
-                zIndex: 2, boxShadow: isActive ? `0 0 15px ${G.blue}40` : "none",
-                transform: "translateX(50%)"
-              }}>
-                <span style={{ fontSize: 18, filter: isActive ? "none" : "grayscale(1)" }}>{step.icon}</span>
-              </div>
-              <div style={{ opacity: isActive ? 1 : 0.4 }}>
-                <div style={{ fontSize: 14, fontWeight: 900, color: isActive ? "#fff" : G.sub, marginBottom: 4 }}>
-                  {step.label}
-                  {isCurrent && <span style={{ marginRight: 8, fontSize: 10, background: G.blue, color: "#fff", padding: "2px 6px", borderRadius: 4 }}>حالي</span>}
-                </div>
-                <div style={{ fontSize: 11, color: G.sub2, lineHeight: 1.5 }}>{step.desc}</div>
-              </div>
-            </div>
-          );
-        })}
+        {roadmap.map((step, idx) => (
+          <RoadmapStep 
+            key={step.id}
+            {...step}
+            active={idx <= currentIdx}
+            current={idx === currentIdx}
+          />
+        ))}
       </div>
 
       <SectionHeader title="الدعم الفني" accent="#ef4444" />
@@ -539,7 +549,7 @@ function OrdersHistoryScreen({ orders, isAdmin, setTab, onSelectOrder }: any) {
           </div>
         ) : (
           filtered.map((o: any) => (
-            <GlassCard key={o.id} style={{ padding: 16, cursor: "pointer" }} onClick={() => onSelectOrder(o)}>
+            <GlassCard key={o._docId || o.id} style={{ padding: 16, cursor: "pointer" }} onClick={() => onSelectOrder(o)}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
@@ -547,7 +557,7 @@ function OrdersHistoryScreen({ orders, isAdmin, setTab, onSelectOrder }: any) {
                   </div>
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 900, color: G.text }}>{o.name || "طلب خدمة"}</div>
-                    <div style={{ fontSize: 10, color: G.sub }}>#{o.id.slice(-6)} • {o.date || (o.createdAt?.toDate ? o.createdAt.toDate().toLocaleDateString("ar-EG") : "")}</div>
+                    <div style={{ fontSize: 10, color: G.sub }}>#{(o._docId || o.id).slice(-6)} • {o.date || (o.createdAt?.toDate ? o.createdAt.toDate().toLocaleDateString("ar-EG") : "")}</div>
                   </div>
                 </div>
                 <Badge 
@@ -593,16 +603,16 @@ function AdminDashboard({ onBack, addNotification }: any) {
   useEffect(() => {
     // Admin Listeners
     const unsubUsers = onSnapshot(collection(db, "users"), (snap) => {
-      setUsers(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+      setUsers(snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id })));
     });
     const unsubOrders = onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), (snap) => {
-      setOrders(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+      setOrders(snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id })));
     });
     const unsubRecharges = onSnapshot(query(collection(db, "recharge_requests"), orderBy("createdAt", "desc")), (snap) => {
-      setRecharges(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+      setRecharges(snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id })));
     });
     const unsubNews = onSnapshot(collection(db, "ticker"), (snap) => {
-      setNews(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+      setNews(snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id })));
     });
 
     return () => {
@@ -614,11 +624,15 @@ function AdminDashboard({ onBack, addNotification }: any) {
   }, []);
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
+    if (!orderId) {
+      addNotification("خطأ", "كود الطلب غير صالح", "❌");
+      return;
+    }
     try {
       await updateDoc(doc(db, "orders", orderId), { status: newStatus });
       addNotification("تم التحديث", `تغيرت حالة الطلب إلى: ${newStatus}`, "✅");
     } catch (e: any) {
-      console.error("Update Order Error:", e);
+      console.error("Update Order Error for ID:", orderId, e);
       addNotification("خطأ", `فشل تحديث الحالة: ${e.message || "عطل غير معروف"}`, "❌");
     }
   };
@@ -762,7 +776,7 @@ function AdminDashboard({ onBack, addNotification }: any) {
                   ].map(s => (
                     <button 
                       key={s.id}
-                      onClick={() => updateOrderStatus(o.id, s.id)}
+                      onClick={() => updateOrderStatus(o._docId || o.id, s.id)}
                       style={{
                         padding: "6px 10px", fontSize: 10, borderRadius: 8, border: 0,
                         background: o.status === s.id ? G.green : "rgba(255,255,255,0.08)",
@@ -806,7 +820,7 @@ function AdminDashboard({ onBack, addNotification }: any) {
         {activeTab === "users" && (
           <div style={{ display: "grid", gap: 15 }}>
             {users.map(u => (
-              <GlassCard key={u.id} style={{ padding: 16 }}>
+              <GlassCard key={u._docId || u.id} style={{ padding: 16 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ fontWeight: 900, color: "#fff" }}>{u.name}</div>
@@ -820,11 +834,11 @@ function AdminDashboard({ onBack, addNotification }: any) {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 15 }}>
                   <button onClick={() => {
                     const val = prompt("المبلغ المراد خصمه:");
-                    if(val) adjustUserBalance(u.id, u.balance, -Number(val));
+                    if(val) adjustUserBalance(u._docId || u.id, u.balance, -Number(val));
                   }} style={{ background: "rgba(239, 68, 68, 0.1)", border: "1px solid #ef4444", color: "#ef4444", padding: 8, borderRadius: 8, fontSize: 11 }}>خصم رصيد</button>
                   <button onClick={() => {
                     const val = prompt("المبلغ المراد إضافته:");
-                    if(val) adjustUserBalance(u.id, u.balance, Number(val));
+                    if(val) adjustUserBalance(u._docId || u.id, u.balance, Number(val));
                   }} style={{ background: "rgba(16, 185, 129, 0.1)", border: "1px solid #10b981", color: "#10b981", padding: 8, borderRadius: 8, fontSize: 11 }}>إضافة رصيد</button>
                 </div>
               </GlassCard>
@@ -864,9 +878,9 @@ function AdminDashboard({ onBack, addNotification }: any) {
             </div>
 
             {filteredNews.map(n => (
-              <GlassCard key={n.id} style={{ padding: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <GlassCard key={n._docId || n.id} style={{ padding: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontSize: 13, color: "#fff" }}>{n.text}</span>
-                <button onClick={() => deleteNewsItem(n.id)} style={{ background: "none", border: 0, fontSize: 18 }}>🗑️</button>
+                <button onClick={() => deleteNewsItem(n._docId || n.id)} style={{ background: "none", border: 0, fontSize: 18 }}>🗑️</button>
               </GlassCard>
             ))}
           </div>
@@ -2749,7 +2763,7 @@ export default function App() {
           : query(collection(db, "orders"), where("userId", "==", user.uid));
 
         onSnapshot(q, (snap) => {
-          const sorted = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+          const sorted = snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id }));
           // Note: If sorting in JS for mixed cases where orderBy might not be present or needed
           if (!isAdmin) {
              sorted.sort((a: any, b: any) => {
@@ -2765,7 +2779,7 @@ export default function App() {
         const rq = query(collection(db, "recharge_requests"), where("userId", "==", user.uid));
         onSnapshot(rq, (snap) => {
           const sorted = snap.docs
-            .map(d => ({ ...d.data(), id: d.id }))
+            .map(d => ({ ...d.data(), _docId: d.id, id: d.id }))
             .sort((a: any, b: any) => {
               const dateA = a.createdAt?.toMillis?.() || 0;
               const dateB = b.createdAt?.toMillis?.() || 0;
@@ -2778,7 +2792,7 @@ export default function App() {
         const tq = query(collection(db, "tickets"), where("userId", "==", user.uid));
         onSnapshot(tq, (snap) => {
           const sorted = snap.docs
-            .map(d => ({ ...d.data(), id: d.id }))
+            .map(d => ({ ...d.data(), _docId: d.id, id: d.id }))
             .sort((a: any, b: any) => {
               const dateA = a.createdAt?.toMillis?.() || 0;
               const dateB = b.createdAt?.toMillis?.() || 0;
@@ -2813,7 +2827,7 @@ export default function App() {
     });
     // Listen to ticker
     onSnapshot(query(collection(db, "ticker")), (snap) => {
-      setTickerItems(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+      setTickerItems(snap.docs.map(d => ({ ...d.data(), _docId: d.id, id: d.id })));
     });
   }, []);
 
@@ -2875,9 +2889,10 @@ export default function App() {
         // 2. Create Order
         const orderRef = doc(collection(db, "orders"));
         
-        // Remove undefined values from order object to prevent Firestore errors
+        // Remove undefined values and conflicting ID from order object to prevent Firestore errors
+        const { id: _ignore, ...safeOrder } = order;
         const sanitizedData = Object.fromEntries(
-          Object.entries(order).filter(([_, v]) => v !== undefined)
+          Object.entries(safeOrder).filter(([_, v]) => v !== undefined)
         );
 
         transaction.set(orderRef, {
